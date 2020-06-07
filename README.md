@@ -3,12 +3,13 @@ Crime patterns among major metropolitan in U.S
 Deep dive into the cities: Chicago, Boston, New York City, San Francisco
 
 ## Team members
+Nick Bergeland
 Molly Chao
 Alesia Stewart
-Nick Bergeland
+
 
 ## Project description
-Comparing crime trends and patterns among four major cities, such as types of crime, the times of occurrence (month, time), areas of distributions to inform the police patrol and civilians repercussions. In addition, to explore if there is any common behaviors among different cities regarding crimes. 
+Comparing crime trends and patterns among four major cities. Varibles analayzed include types of crime, the times of occurrence (month, time), areas of distributions (to inform the police patrol and civilians repercussions). In addition, to explore if there is any common behaviors among different cities regarding crimes. 
 
 ## Research questions to answer
 What cities occurs most/least crimes?
