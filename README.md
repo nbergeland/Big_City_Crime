@@ -9,7 +9,7 @@ Alesia Stewart
 
 
 ## Project description
-Comparing crime trends and patterns among four major cities. Varibles analayzed include types of crime, the times of occurrence (month, time), areas of distributions (to inform the police patrol and civilians repercussions). In addition, to explore if there is any common behaviors among different cities regarding crimes. 
+Comparing crime trends and patterns among four major cities. Variables analayzed include types of crime, the times of occurrence (month, time), areas of distributions (to inform the police patrol and civilians repercussions). In addition, to explore if there is any common behaviors among different cities regarding crimes. 
 
 ## Research questions to answer
 What cities occurs most/least crimes?
