@@ -328,3 +328,254 @@ fig.show()
 
 <img width="1039" alt="image" src="https://github.com/nbergeland/Big_City_Crime/assets/55772476/0321ba70-1664-47c6-a5e3-6449d6eadc27">
 
+<img width="1122" alt="image" src="https://github.com/nbergeland/Big_City_Crime/assets/55772476/e24aa645-690d-4712-9d8e-14cad3d5b773">
+
+#count of crime descriptions
+df_new_york_crime["OFNS_DESC"].value_counts()
+PETIT LARCENY                       66010
+HARRASSMENT 2                       53967
+ASSAULT 3 & RELATED OFFENSES        40352
+CRIMINAL MISCHIEF & RELATED OF      35577
+GRAND LARCENY                       31565
+                                    ...  
+HOMICIDE-NEGLIGENT-VEHICLE              3
+KIDNAPPING AND RELATED OFFENSES         1
+OFFENSES AGAINST MARRIAGE UNCL          1
+OTHER TRAFFIC INFRACTION                1
+OTHER STATE LAWS (NON PENAL LAW)        1
+Name: OFNS_DESC, Length: 63, dtype: int64
+#count of crime descriptions
+df_new_york_crime["PD_DESC"].value_counts()
+HARASSMENT,SUBD 3,4,5             39129
+ASSAULT 3                         32599
+LARCENY,PETIT FROM STORE-SHOPL    25198
+HARASSMENT,SUBD 1,CIVILIAN        14838
+AGGRAVATED HARASSMENT 2           14111
+                                  ...  
+CIGARETTE,NO TAX STAMP,POSSESS        1
+PROSTITUTION 3, PROMOTING UNDE        1
+ALCOHOLIC BEVERAGES,PUBLIC CON        1
+ROBBERY,DOCTOR/DENTIST OFFICE         1
+SOLICITATION 4, CRIMINAL              1
+Name: PD_DESC, Length: 347, dtype: int64
+df_new_york_crime[(df_new_york_crime['PD_DESC'].notnull()) &
+                  (df_new_york_crime['PD_DESC'].str.contains('HOMICIDE'))][['PD_DESC']]
+PD_DESC
+67822	HOMICIDE,NEGLIGENT,UNCLASSIFIE
+77750	HOMICIDE, NEGLIGENT, VEHICLE,
+85487	HOMICIDE,NEGLIGENT,UNCLASSIFIE
+89360	HOMICIDE,NEGLIGENT,UNCLASSIFIE
+97477	HOMICIDE,NEGLIGENT,UNCLASSIFIE
+175135	HOMICIDE, NEGLIGENT, VEHICLE,
+225000	HOMICIDE,NEGLIGENT,UNCLASSIFIE
+252981	HOMICIDE, NEGLIGENT, VEHICLE,
+ 
+#mix of crime severity
+
+df_new_york_crime["LAW_CAT_CD"].value_counts()
+MISDEMEANOR    186354
+FELONY         106232
+VIOLATION       54488
+Name: LAW_CAT_CD, dtype: int64
+# functions to call on race, age, etc.
+
+df_new_york_crime["SUSP_RACE"].value_counts()
+BLACK                             100287
+UNKNOWN                            65756
+WHITE HISPANIC                     46394
+WHITE                              26566
+BLACK HISPANIC                     14879
+ASIAN / PACIFIC ISLANDER           10240
+AMERICAN INDIAN/ALASKAN NATIVE       827
+Name: SUSP_RACE, dtype: int64
+#observing age groups suspected of crime most frequently in this cell
+df_new_york_crime["SUSP_AGE_GROUP"].value_counts()
+UNKNOWN    100079
+25-44       89757
+45-64       32830
+18-24       29986
+<18          9102
+65+          3170
+2019            7
+-1              2
+-966            2
+-968            2
+-973            2
+929             2
+930             1
+947             1
+924             1
+1019            1
+-64             1
+-964            1
+940             1
+-80             1
+Name: SUSP_AGE_GROUP, dtype: int64
+#observing crime occurence across race groups
+df_new_york_crime["VIC_RACE"].value_counts()
+UNKNOWN                           103388
+BLACK                              88021
+WHITE HISPANIC                     59696
+WHITE                              54212
+ASIAN / PACIFIC ISLANDER           25634
+BLACK HISPANIC                     14134
+AMERICAN INDIAN/ALASKAN NATIVE      1989
+Name: VIC_RACE, dtype: int64
+#counting which age group has most crime happen to them
+df_new_york_crime["VIC_AGE_GROUP"].value_counts()
+25-44      122464
+UNKNOWN     96757
+45-64       64614
+18-24       33290
+<18         15060
+65+         14856
+936             3
+-56             2
+-970            2
+-2              2
+-943            2
+951             1
+-946            1
+-39             1
+-952            1
+937             1
+938             1
+941             1
+927             1
+-954            1
+-67             1
+-961            1
+1013            1
+956             1
+-974            1
+-71             1
+-942            1
+-967            1
+-934            1
+960             1
+-50             1
+-69             1
+-978            1
+Name: VIC_AGE_GROUP, dtype: int64
+#likelihood of police interaction last year for NY citizens
+
+347074/8623000
+0.04024979705438942
+#count instances @ different hours of occurance
+time_series=df_new_york_crime["CMPLNT_FR_TM"]
+datetime=pd.to_datetime(time_series)
+datetime_df=datetime.to_frame(name="time")
+datetime_df_time = pd.to_datetime(datetime_df['time']).dt.hour
+hour_df=datetime_df_time.to_frame(name="hour")
+hour_df["hour"].value_counts()
+15    20952
+17    20943
+16    20759
+18    20429
+12    20017
+14    18837
+19    18683
+20    18377
+13    17087
+0     16992
+21    16238
+22    15178
+11    14836
+10    14645
+23    13723
+9     13504
+8     12383
+1     10799
+2      9295
+7      7949
+3      7846
+4      6854
+6      5736
+5      5012
+Name: hour, dtype: int64
+#binning hours to find to infer time of day correlation 
+
+bins = [0, 6, 12, 18, 24]
+labels= ['Night','Morning','Afternoon','Evening']
+hour_df["hour"] = pd.cut(hour_df["hour"], bins, labels=labels)
+hour_df["hour"].value_counts()
+Afternoon    119007
+Morning       83334
+Evening       82199
+Night         45542
+Name: hour, dtype: int64
+#month of occurance
+time_series=df_new_york_crime["RPT_DT"]
+datetime=pd.to_datetime(time_series)
+datetime_df=datetime.to_frame(name="date")
+datetime_df_date = pd.to_datetime(datetime_df['date']).dt.month
+date_df=datetime_df_date.to_frame(name="month")
+date_df["month"].value_counts()
+7    42746
+8    41216
+9    40511
+5    40478
+6    40048
+4    36907
+3    36561
+1    36389
+2    32218
+Name: month, dtype: int64
+# seasonal bins
+time_series=df_new_york_crime["RPT_DT"]
+datetime=pd.to_datetime(time_series)
+datetime_df=datetime.to_frame(name="Time")
+datetime_df_date = pd.to_datetime(chi_crime_df['Date']).dt.month
+season_df=datetime_df_date.to_frame(name="season")
+season_df.columns
+bins = [0, 3, 6, 9, 12]
+labels= ['Winter','Spring','Summer','Fall']
+season_df["season"] = pd.cut(season_df["season"], bins, labels=labels)
+season_df["season"].value_counts()
+Summer    70763
+Spring    67641
+Winter    58097
+Fall      57941
+Name: season, dtype: int64
+ 
+#heat map
+ny_homicide_df = df_new_york_crime[(df_new_york_crime["PD_DESC"].str.contains('HOMICIDE'))]
+
+location_df = ny_homicide_df[(ny_homicide_df['Latitude'].notnull()) & 
+                             (ny_homicide_df['Longitude'].notnull())]
+location_df
+locations=location_df[["Latitude", "Longitude"]]
+figure_layout = {
+    'width': '400px',
+    'height': '300px',
+    'border': '1px solid black',
+    'padding': '1px',
+    'margin': '0 auto 0 auto'
+}
+map_ny = gmaps.figure(layout=figure_layout)
+# Assign the marker layer to a variable
+markers = gmaps.marker_layer(locations)
+map_ny.add_layer(markers)
+map_ny
+#plotly NY
+
+top_crimes_ny =['PETIT LARCENY', 'HARRASSMENT 2', 'ASSAULT 3 & RELATED OFFENSES', 'HOMICIDE', 'GRAND LARCENY', 'AGGRAVATED HARASSMENT 2',]
+
+top_df = df_new_york_crime[df_new_york_crime['OFNS_DESC'].isin(top_crimes_ny)]
+
+top_df = top_df['OFNS_DESC'].value_counts().reset_index()
+
+#top_df.head()
+
+fig = px.pie(top_df, values='OFNS_DESC', names='index', title='Top Crimes in NYC')
+
+fig.show()
+34.4%
+28.1%
+21%
+16.4%
+
+<img width="1122" alt="image" src="https://github.com/nbergeland/Big_City_Crime/assets/55772476/4c6ebce3-5c78-40ab-8489-4a9a7387d22e">
+
+
+
