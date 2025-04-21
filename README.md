@@ -115,7 +115,7 @@ Name: Date, dtype: datetime64[ns]
     datetime_df_date = pd.to_datetime(datetime_df['Date']).dt.date
     datetime_df_date
 
-# datetime_df_time = pd.to_datetime(datetime_df['Date']).dt.time
+    datetime_df_time = pd.to_datetime(datetime_df['Date']).dt.time
 # datetime_df_time
 0    2019-12-27
 1    2019-12-27
@@ -193,6 +193,7 @@ Date	Time
 4	2019-12-27	22:50:00
 datetime_df_formatted.shape
 (5, 2)
+
 #hours of occurance
 
     time_series=chi_crime_df["Date"]
