@@ -31,37 +31,37 @@ Create the report and presentation
 
 ## Code Notebook
 
-import os
-import csv
-import pandas as pd
-import numpy as np
-import datetime
-import requests
-import json
-import matplotlib.pyplot as plt
-import gmaps
-%matplotlib inline
-from matplotlib import pyplot as plt
-import numpy as np
-import scipy.stats as stats
-#plotly
-import plotly.graph_objects as go
-import plotly as pyo
-import plotly.express as px
-import plotly.offline as pyo
-import plotly.graph_objs as go
-from plotly.offline import plot, iplot, init_notebook_mode
-
-# Make plotly work with Jupyter notebook
-init_notebook_mode()
-#google map api
-
-from config import g_key
-#print(g_key)
-chi_crime = "Crimes_-_2019.csv"
-#import and print dataset
-df_chi_crime = pd.read_csv(chi_crime)
-df_chi_crime
+    import os
+    import csv
+    import pandas as pd
+    import numpy as np
+    import datetime
+    import requests
+    import json
+    import matplotlib.pyplot as plt
+    import gmaps
+    %matplotlib inline
+    from matplotlib import pyplot as plt
+    import numpy as np
+    import scipy.stats as stats
+    #plotly
+    import plotly.graph_objects as go
+    import plotly as pyo
+    import plotly.express as px
+    import plotly.offline as pyo
+    import plotly.graph_objs as go
+    from plotly.offline import plot, iplot, init_notebook_mode
+    
+    # Make plotly work with Jupyter notebook
+    init_notebook_mode()
+    #google map api
+    
+    from config import g_key
+    #print(g_key)
+    chi_crime = "Crimes_-_2019.csv"
+    #import and print dataset
+    df_chi_crime = pd.read_csv(chi_crime)
+    df_chi_crime
 ID	Case Number	Date	Block	IUCR	Primary Type	Description	Location Description	Arrest	Domestic	...	Ward	Community Area	FBI Code	X Coordinate	Y Coordinate	Year	Updated On	Latitude	Longitude	Location
 0	11933698	JC561524	12/27/2019 07:13:00 AM	013XX S SAWYER AVE	502P	OTHER OFFENSE	FALSE/STOLEN/ALTERED TRP	STREET	False	False	...	24.0	29.0	26	1154911.0	1893543.0	2019	01/03/2020 03:59:34 PM	41.863694	-87.706808	(41.86369439, -87.706807621)
 1	11933991	JC562233	12/27/2019 04:22:00 PM	049XX W QUINCY ST	2826	OTHER OFFENSE	HARASSMENT BY ELECTRONIC MEANS	STREET	False	False	...	28.0	25.0	26	1143688.0	1898552.0	2019	01/03/2020 03:59:34 PM	41.877657	-87.747882	(41.877657084, -87.747881613)
@@ -76,13 +76,13 @@ ID	Case Number	Date	Block	IUCR	Primary Type	Description	Location Description	Arr
 254441	24558	JC278685	05/25/2019 11:43:00 PM	004XX W 77TH ST	0110	HOMICIDE	FIRST DEGREE MURDER	STREET	False	False	...	17.0	69.0	01A	1174853.0	1853877.0	2019	06/01/2019 04:04:59 PM	41.754424	-87.634786	(41.754424418, -87.634785654)
 254442 rows × 22 columns
 
-#drop columns we will not be using
-#display data
-
-chi_crime_df=df_chi_crime.drop(columns = ['ID','Case Number','Block','IUCR',
-                             'Domestic','Beat','District','Ward','Community Area','FBI Code','X Coordinate',
-                            'Y Coordinate','Updated On','Location','Year'])
-chi_crime_df.sort_values(by='Date',ascending=False)
+    #drop columns we will not be using
+    #display data
+    
+    chi_crime_df=df_chi_crime.drop(columns = ['ID','Case Number','Block','IUCR',
+                                 'Domestic','Beat','District','Ward','Community Area','FBI Code','X Coordinate',
+                                'Y Coordinate','Updated On','Location','Year'])
+    chi_crime_df.sort_values(by='Date',ascending=False)
 Date	Primary Type	Description	Location Description	Arrest	Latitude	Longitude
 211	12/27/2019 12:59:00 PM	NARCOTICS	POSS: CANNABIS 30GMS OR LESS	ALLEY	True	41.680518	-87.620591
 654	12/27/2019 12:59:00 PM	BATTERY	DOMESTIC BATTERY SIMPLE	RESIDENTIAL YARD (FRONT/BACK)	False	41.780421	-87.675146
@@ -97,22 +97,24 @@ Date	Primary Type	Description	Location Description	Arrest	Latitude	Longitude
 165570	01/01/2019 01:00:00 AM	BATTERY	AGGRAVATED: OTHER DANG WEAPON	SIDEWALK	True	41.898003	-87.628771
 254442 rows × 7 columns
 
-#time of occurance
-time_series=chi_crime_df["Date"]
-time_df=time_series.to_frame(name='time')
-test=pd.to_datetime(time_series.head())
-print(test)
+    #time of occurance
+    time_series=chi_crime_df["Date"]
+    time_df=time_series.to_frame(name='time')
+    test=pd.to_datetime(time_series.head())
+    print(test)
 0   2019-12-27 07:13:00
 1   2019-12-27 16:22:00
 2   2019-12-27 21:25:00
 3   2019-12-27 03:00:00
 4   2019-12-27 22:50:00
 Name: Date, dtype: datetime64[ns]
-date_series=chi_crime_df["Date"]
-datetime=pd.to_datetime(time_series.head())
-datetime_df=datetime.to_frame(name="Date")
-datetime_df_date = pd.to_datetime(datetime_df['Date']).dt.date
-datetime_df_date
+
+    date_series=chi_crime_df["Date"]
+    datetime=pd.to_datetime(time_series.head())
+    datetime_df=datetime.to_frame(name="Date")
+    datetime_df_date = pd.to_datetime(datetime_df['Date']).dt.date
+    datetime_df_date
+
 # datetime_df_time = pd.to_datetime(datetime_df['Date']).dt.time
 # datetime_df_time
 0    2019-12-27
@@ -121,14 +123,16 @@ datetime_df_date
 3    2019-12-27
 4    2019-12-27
 Name: Date, dtype: object
-#minor munging
-date_series=chi_crime_df["Date"]
-datetime=pd.to_datetime(time_series.head())
-datetime_df=datetime.to_frame(name="Date")
-datetime_df_date = pd.to_datetime(datetime_df['Date']).dt.date
-datetime_df_date
-datetime_df_time = pd.to_datetime(datetime_df['Date']).dt.time
-datetime_df_time
+
+    #minor munging
+    date_series=chi_crime_df["Date"]
+    datetime=pd.to_datetime(time_series.head())
+    datetime_df=datetime.to_frame(name="Date")
+    datetime_df_date = pd.to_datetime(datetime_df['Date']).dt.date
+    datetime_df_date
+    datetime_df_time = pd.to_datetime(datetime_df['Date']).dt.time
+    datetime_df_time
+
 0    07:13:00
 1    16:22:00
 2    21:25:00
@@ -142,41 +146,45 @@ datetime_df_date
 3    2019-12-27
 4    2019-12-27
 Name: Date, dtype: object
-# time_series=chi_crime_df["Date"]
-# datetime=pd.to_datetime(time_series.head())
-# datetime_df=datetime.to_frame(name="Time")
-# datetime_df_date = pd.to_datetime(datetime_df['Date']).dt.date
-# datetime_df_date
-# datetime_df_time = pd.to_datetime(datetime_df['Time']).dt.time
-# datetime_df_time
-pd.concat([datetime_df_time, datetime_df_date], axis = 1)
-df_concat = pd.concat([datetime_df_time, datetime_df_date], axis = 1)
-print(df_concat)
+
+    # time_series=chi_crime_df["Date"]
+    # datetime=pd.to_datetime(time_series.head())
+    # datetime_df=datetime.to_frame(name="Time")
+    # datetime_df_date = pd.to_datetime(datetime_df['Date']).dt.date
+    # datetime_df_date
+    # datetime_df_time = pd.to_datetime(datetime_df['Time']).dt.time
+    # datetime_df_time
+    pd.concat([datetime_df_time, datetime_df_date], axis = 1)
+    df_concat = pd.concat([datetime_df_time, datetime_df_date], axis = 1)
+    print(df_concat)
        Date        Date
 0  07:13:00  2019-12-27
 1  16:22:00  2019-12-27
 2  21:25:00  2019-12-27
 3  03:00:00  2019-12-27
 4  22:50:00  2019-12-27
+
 #format time series
-time_series=chi_crime_df["Date"]
-datetime=pd.to_datetime(time_series.head())
-datetime_df=datetime.to_frame(name="time")
-datetime_df_date = pd.to_datetime(datetime_df['time']).dt.date
-datetime_df_time = pd.to_datetime(datetime_df['time']).dt.time
-datetime_df_formatted=pd.concat([datetime_df_date, datetime_df_time], axis=1)
-cols = []
-count = 1
-for column in datetime_df_formatted.columns:
-    if column == 'time':
-        cols.append(f'time_{count}')
-        count+=1
-        continue
-    cols.append(column)
-datetime_df_formatted.columns = cols
-datetime_df_formatted
-datetime_df_formatted = datetime_df_formatted.rename(columns={'time_1': 'Date', 'time_2': 'Time'})
-datetime_df_formatted
+
+    time_series=chi_crime_df["Date"]
+    datetime=pd.to_datetime(time_series.head())
+    datetime_df=datetime.to_frame(name="time")
+    datetime_df_date = pd.to_datetime(datetime_df['time']).dt.date
+    datetime_df_time = pd.to_datetime(datetime_df['time']).dt.time
+    datetime_df_formatted=pd.concat([datetime_df_date, datetime_df_time], axis=1)
+    cols = []
+    count = 1
+    for column in datetime_df_formatted.columns:
+      if column == 'time':
+          cols.append(f'time_{count}')
+          count+=1
+          continue
+      cols.append(column)
+    datetime_df_formatted.columns = cols
+    datetime_df_formatted
+    datetime_df_formatted = datetime_df_formatted.rename(columns={'time_1': 'Date', 'time_2': 'Time'})
+    datetime_df_formatted
+
 Date	Time
 0	2019-12-27	07:13:00
 1	2019-12-27	16:22:00
@@ -186,16 +194,18 @@ Date	Time
 datetime_df_formatted.shape
 (5, 2)
 #hours of occurance
-time_series=chi_crime_df["Date"]
-datetime=pd.to_datetime(time_series)
-datetime_df=datetime.to_frame(name="Time")
-datetime_df_date = pd.to_datetime(chi_crime_df['Date']).dt.hour
-hour_df=datetime_df_date.to_frame(name="hour")
-hour_df.columns
-bins = [0, 6, 12, 18, 24]
-labels= ['Night','Morning','Afternoon','Evening']
-hour_df["hour"] = pd.cut(hour_df["hour"], bins, labels=labels)
-hour_df["hour"].value_counts()
+
+    time_series=chi_crime_df["Date"]
+    datetime=pd.to_datetime(time_series)
+    datetime_df=datetime.to_frame(name="Time")
+    datetime_df_date = pd.to_datetime(chi_crime_df['Date']).dt.hour
+    hour_df=datetime_df_date.to_frame(name="hour")
+    hour_df.columns
+    bins = [0, 6, 12, 18, 24]
+    labels= ['Night','Morning','Afternoon','Evening']
+    hour_df["hour"] = pd.cut(hour_df["hour"], bins, labels=labels)
+    hour_df["hour"].value_counts()
+
 Afternoon    82419
 Morning      64436
 Evening      62903
@@ -266,28 +276,29 @@ BASEMENT                  1
 CTA SUBWAY STATION        1
 CHA GROUNDS               1
 Name: Location Description, Length: 126, dtype: int64
-# plots
-# crime_pie = chi_crime_df.plot.pie(subplots=True, figsize=(6, 3))
-# crime_pie.set_ylabel("Occurences")
 
-#df = pd.DataFrame({'mass': [.97, .87 , .3, .07, .3],
-                   #'radius': [2439.7, 6051.8, 6378.1, 4, 5]},index=['THEFT', 'BATTERY', 'CRIMINAL DAMAGE','HOMICIDE', 'ASSAULT'])
-
-#define plot
-#plot = df.plot.pie(y='mass', figsize=(5, 5))
-#print(plot)
+    # plots
+    crime_pie = chi_crime_df.plot.pie(subplots=True, figsize=(6, 3))
+    crime_pie.set_ylabel("Occurences")
+    
+    df = pd.DataFrame({'mass': [.97, .87 , .3, .07, .3],
+                       #'radius': [2439.7, 6051.8, 6378.1, 4, 5]},index=['THEFT', 'BATTERY', 'CRIMINAL DAMAGE','HOMICIDE', 'ASSAULT'])
+    
+    #define plot
+    plot = df.plot.pie(y='mass', figsize=(5, 5))
+    print(plot)
 
 top_crimes_chi =['THEFT', 'BATTERY','CRIMINAL DAMAGE', 'HOMICIDE', 'ASSAULT', 'DECEPTIVE PRACTICE', 'OTHER OFFENSE', 'NARCOTICS', 'BURGLARY', 'MOTOR VEHICLE THEFT','ROBBERY', 'CRIMINAL TRESPASS', 'WEAPONS VIOLATION', 'OFFENSE INVOLVING CHILDREN', 'CRIM SEXUAL ASSAULT', 'INTERFERENCE WITH PUBLIC OFFICER', 'PUBLIC PEACE VIOLATION', 'SEX OFFENSE', 'PROSTITUTION', 'ARSON', 'LIQUOR LAW VIOLATION', 'STALKING', 'CONCEALED CARRY LICENSE VIOLATION', 'KIDNAPPING', 'INTIMIDATION', 'GAMBLING', 'OBSCENITY', 'HUMAN TRAFFICKING', 'PUBLIC INDECENCY', 'OTHER NARCOTIC VIOLATION', 'NON-CRIMINAL']
 
-top_df = chi_crime_df[chi_crime_df['Primary Type'].isin(top_crimes_chi)]
-
-top_df = top_df['Primary Type'].value_counts().reset_index()
-
-#top_df.head()
-
-fig = px.pie(top_df, values='Primary Type', names='index', title='Top Crimes in Chicago')
-
-fig.show()
+    top_df = chi_crime_df[chi_crime_df['Primary Type'].isin(top_crimes_chi)]
+    
+    top_df = top_df['Primary Type'].value_counts().reset_index()
+    
+    #top_df.head()
+    
+    fig = px.pie(top_df, values='Primary Type', names='index', title='Top Crimes in Chicago')
+    
+    fig.show()
 24.1%
 19.2%
 10.4%
@@ -365,15 +376,15 @@ PD_DESC
 252981	HOMICIDE, NEGLIGENT, VEHICLE,
  
 #mix of crime severity
-
 df_new_york_crime["LAW_CAT_CD"].value_counts()
 MISDEMEANOR    186354
 FELONY         106232
 VIOLATION       54488
 Name: LAW_CAT_CD, dtype: int64
-# functions to call on race, age, etc.
 
-df_new_york_crime["SUSP_RACE"].value_counts()
+    # functions to call on race, age, etc.
+
+    df_new_york_crime["SUSP_RACE"].value_counts()
 BLACK                             100287
 UNKNOWN                            65756
 WHITE HISPANIC                     46394
@@ -405,8 +416,10 @@ UNKNOWN    100079
 940             1
 -80             1
 Name: SUSP_AGE_GROUP, dtype: int64
-#observing crime occurence across race groups
-df_new_york_crime["VIC_RACE"].value_counts()
+
+    #observing crime occurence across race groups
+    df_new_york_crime["VIC_RACE"].value_counts()
+
 UNKNOWN                           103388
 BLACK                              88021
 WHITE HISPANIC                     59696
@@ -455,13 +468,16 @@ Name: VIC_AGE_GROUP, dtype: int64
 
 347074/8623000
 0.04024979705438942
+
 #count instances @ different hours of occurance
-time_series=df_new_york_crime["CMPLNT_FR_TM"]
-datetime=pd.to_datetime(time_series)
-datetime_df=datetime.to_frame(name="time")
-datetime_df_time = pd.to_datetime(datetime_df['time']).dt.hour
-hour_df=datetime_df_time.to_frame(name="hour")
-hour_df["hour"].value_counts()
+
+    time_series=df_new_york_crime["CMPLNT_FR_TM"]
+    datetime=pd.to_datetime(time_series)
+    datetime_df=datetime.to_frame(name="time")
+    datetime_df_time = pd.to_datetime(datetime_df['time']).dt.hour
+    hour_df=datetime_df_time.to_frame(name="hour")
+    hour_df["hour"].value_counts()
+
 15    20952
 17    20943
 16    20759
@@ -489,22 +505,25 @@ hour_df["hour"].value_counts()
 Name: hour, dtype: int64
 #binning hours to find to infer time of day correlation 
 
-bins = [0, 6, 12, 18, 24]
-labels= ['Night','Morning','Afternoon','Evening']
-hour_df["hour"] = pd.cut(hour_df["hour"], bins, labels=labels)
-hour_df["hour"].value_counts()
+    bins = [0, 6, 12, 18, 24]
+    labels= ['Night','Morning','Afternoon','Evening']
+    hour_df["hour"] = pd.cut(hour_df["hour"], bins, labels=labels)
+    hour_df["hour"].value_counts()
+
 Afternoon    119007
 Morning       83334
 Evening       82199
 Night         45542
 Name: hour, dtype: int64
-#month of occurance
-time_series=df_new_york_crime["RPT_DT"]
-datetime=pd.to_datetime(time_series)
-datetime_df=datetime.to_frame(name="date")
-datetime_df_date = pd.to_datetime(datetime_df['date']).dt.month
-date_df=datetime_df_date.to_frame(name="month")
-date_df["month"].value_counts()
+
+    #month of occurance
+    time_series=df_new_york_crime["RPT_DT"]
+    datetime=pd.to_datetime(time_series)
+    datetime_df=datetime.to_frame(name="date")
+    datetime_df_date = pd.to_datetime(datetime_df['date']).dt.month
+    date_df=datetime_df_date.to_frame(name="month")
+    date_df["month"].value_counts()
+
 7    42746
 8    41216
 9    40511
@@ -515,55 +534,59 @@ date_df["month"].value_counts()
 1    36389
 2    32218
 Name: month, dtype: int64
-# seasonal bins
-time_series=df_new_york_crime["RPT_DT"]
-datetime=pd.to_datetime(time_series)
-datetime_df=datetime.to_frame(name="Time")
-datetime_df_date = pd.to_datetime(chi_crime_df['Date']).dt.month
-season_df=datetime_df_date.to_frame(name="season")
-season_df.columns
-bins = [0, 3, 6, 9, 12]
-labels= ['Winter','Spring','Summer','Fall']
-season_df["season"] = pd.cut(season_df["season"], bins, labels=labels)
-season_df["season"].value_counts()
+
+  # seasonal bins
+    time_series=df_new_york_crime["RPT_DT"]
+    datetime=pd.to_datetime(time_series)
+    datetime_df=datetime.to_frame(name="Time")
+    datetime_df_date = pd.to_datetime(chi_crime_df['Date']).dt.month
+    season_df=datetime_df_date.to_frame(name="season")
+    season_df.columns
+    bins = [0, 3, 6, 9, 12]
+    labels= ['Winter','Spring','Summer','Fall']
+    season_df["season"] = pd.cut(season_df["season"], bins, labels=labels)
+    season_df["season"].value_counts()
+
 Summer    70763
 Spring    67641
 Winter    58097
 Fall      57941
 Name: season, dtype: int64
  
-#heat map
-ny_homicide_df = df_new_york_crime[(df_new_york_crime["PD_DESC"].str.contains('HOMICIDE'))]
+# heat map
 
-location_df = ny_homicide_df[(ny_homicide_df['Latitude'].notnull()) & 
-                             (ny_homicide_df['Longitude'].notnull())]
-location_df
-locations=location_df[["Latitude", "Longitude"]]
-figure_layout = {
-    'width': '400px',
-    'height': '300px',
-    'border': '1px solid black',
-    'padding': '1px',
-    'margin': '0 auto 0 auto'
-}
-map_ny = gmaps.figure(layout=figure_layout)
-# Assign the marker layer to a variable
-markers = gmaps.marker_layer(locations)
-map_ny.add_layer(markers)
-map_ny
-#plotly NY
+    ny_homicide_df = df_new_york_crime[(df_new_york_crime["PD_DESC"].str.contains('HOMICIDE'))]
+    
+    location_df = ny_homicide_df[(ny_homicide_df['Latitude'].notnull()) & 
+                                 (ny_homicide_df['Longitude'].notnull())]
+    location_df
+    locations=location_df[["Latitude", "Longitude"]]
+    figure_layout = {
+        'width': '400px',
+        'height': '300px',
+        'border': '1px solid black',
+        'padding': '1px',
+        'margin': '0 auto 0 auto'
+    }
+    map_ny = gmaps.figure(layout=figure_layout)
+    # Assign the marker layer to a variable
+    markers = gmaps.marker_layer(locations)
+    map_ny.add_layer(markers)
+    map_ny
+    
+# Plotly NY
 
-top_crimes_ny =['PETIT LARCENY', 'HARRASSMENT 2', 'ASSAULT 3 & RELATED OFFENSES', 'HOMICIDE', 'GRAND LARCENY', 'AGGRAVATED HARASSMENT 2',]
-
-top_df = df_new_york_crime[df_new_york_crime['OFNS_DESC'].isin(top_crimes_ny)]
-
-top_df = top_df['OFNS_DESC'].value_counts().reset_index()
-
-#top_df.head()
-
-fig = px.pie(top_df, values='OFNS_DESC', names='index', title='Top Crimes in NYC')
-
-fig.show()
+    top_crimes_ny =['PETIT LARCENY', 'HARRASSMENT 2', 'ASSAULT 3 & RELATED OFFENSES', 'HOMICIDE', 'GRAND LARCENY', 'AGGRAVATED HARASSMENT 2',]
+    
+    top_df = df_new_york_crime[df_new_york_crime['OFNS_DESC'].isin(top_crimes_ny)]
+    
+    top_df = top_df['OFNS_DESC'].value_counts().reset_index()
+    
+    top_df.head()
+    
+    fig = px.pie(top_df, values='OFNS_DESC', names='index', title='Top Crimes in NYC')
+    
+    fig.show()
 34.4%
 28.1%
 21%
