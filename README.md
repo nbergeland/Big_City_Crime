@@ -1,3 +1,101 @@
+# Big City Crime Overview
+The Big City Crime repository is a data analysis project that examines crime patterns across major US cities with a focus on Chicago, New York, San Francisco, and Boston. The system ingests crime data from these cities, performs various analyses, and generates visualizations to understand crime trends by time period (hour, day, month) and by geographical location.
+
+## Data Coverage and Time Ranges
+The analysis includes data from four major US cities, with each city's data covering different time periods:
+
+City	Date Range
+Chicago	January 1, 2019 - Present (at time of analysis)
+New York	January 1, 2019 - September 30, 2019
+San Francisco	December 31, 2017 - June 30, 2019
+Boston	June 15, 2015 - October 13, 2019
+Sources: 
+Chicago_crime.ipynb
+13-18
+
+## System Components
+The system consists of the following main components:
+
+Main Analysis Notebook - The central component where data is processed, analyzed, and visualized
+Google API Integration - Used for mapping and geocoding functions
+Data Processing Modules - Functions for cleaning and preparing crime data
+Visualization Generators - Code to produce various charts and graphs
+HTML Report Generators - Creates web-based reports for specific analyses
+
+## System Component Diagram
+
+## Analysis Types and Workflow
+The system performs several types of analyses across different temporal and geographic dimensions:
+
+## Data Flow and Analysis Pipeline
+## Time-Based Analysis Dimensions
+The analysis examines crime patterns across different time granularities to identify temporal patterns:
+
+1. Hourly Analysis - Crime distribution by hour of day
+2. Daily Analysis - Crime patterns by day of week
+3. Monthly Analysis - Seasonal crime trends
+4. Date-Based Analysis - Long-term trends across specific dates
+
+### Time Granularity Visualization
+
+
+Libraries and Dependencies
+The project utilizes several key Python libraries for data analysis and visualization:
+
+    import os
+    import csv
+    import pandas as pd
+    import datetime
+    import matplotlib.pyplot as plt
+    import numpy as np
+    import gmaps
+    from config import gkey
+This stack of libraries enables:
+
+- Data manipulation and analysis (pandas, numpy)
+- Visualization (matplotlib, plotly)
+- Geographic mapping (gmaps with Google API integration)
+- Date and time manipulation (datetime)
+
+Sources: 
+Chicago_crime.ipynb
+21-35
+
+## System Outputs
+The system produces two main types of outputs:
+
+1. Visualization Images - PNG files showing various crime trends
+
+- City-specific visualizations (by time, day, month)
+- Multi-city comparisons (by date, time, crime type)
+
+2. HTML Reports - Web pages detailing specific analyses
+
+- Top 10 crimes in Boston
+- Top 10 crimes in San Francisco
+These outputs provide both broad comparative analysis and detailed city-specific insights into crime patterns.
+
+Sources: 
+Chicago_crime.ipynb
+1-35
+ 
+Image_4citiesCrimes_by_date.png
+ 
+Image_4citiesCrimes_by_time.png
+
+## Key Analysis Goals
+
+The primary objectives of this crime data analysis system include:
+
+1. Identifying temporal patterns in crime (hourly, daily, monthly, seasonal)
+2. Comparing crime trends across major US cities
+3. Analyzing specific crime types and their distribution
+4. Visualizing geographic and temporal crime patterns
+5. Producing accessible reports highlighting key crime statistics
+
+The analysis aims to provide insights for law enforcement, policy makers, urban planners, and researchers studying urban crime patterns.
+
+
 ## Project title
 Crime patterns among major metropolitan in U.S 
 Deep dive into the cities: Chicago, Boston, New York City, San Francisco
@@ -29,7 +127,7 @@ Use matplotlib to create data visualizations of the trend
 Use google map api to generate the heat map for certain findings
 Create the report and presentation
 
-## Code Notebook
+## Code Notebook & Outputs
 
     import os
     import csv
