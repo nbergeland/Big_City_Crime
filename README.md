@@ -23,11 +23,14 @@ Visualization Generators - Code to produce various charts and graphs
 HTML Report Generators - Creates web-based reports for specific analyses
 
 ## System Component Diagram
+![Screenshot](scd.png)
 
 ## Analysis Types and Workflow
 The system performs several types of analyses across different temporal and geographic dimensions:
 
 ## Data Flow and Analysis Pipeline
+![Screenshot](DFAP.png)
+
 ## Time-Based Analysis Dimensions
 The analysis examines crime patterns across different time granularities to identify temporal patterns:
 
@@ -37,7 +40,7 @@ The analysis examines crime patterns across different time granularities to iden
 4. Date-Based Analysis - Long-term trends across specific dates
 
 ### Time Granularity Visualization
-
+![Screenshot](tgv.png)
 
 Libraries and Dependencies
 The project utilizes several key Python libraries for data analysis and visualization:
@@ -96,13 +99,6 @@ The primary objectives of this crime data analysis system include:
 The analysis aims to provide insights for law enforcement, policy makers, urban planners, and researchers studying urban crime patterns.
 
 
-## Project title
-Crime patterns among major metropolitan in U.S 
-Deep dive into the cities: Chicago, Boston, New York City, San Francisco
-
-## Project description
-Comparing crime trends and patterns among four major cities. Variables analayzed include types of crime, the times of occurrence (month, time), areas of distributions (to inform the police patrol and civilians repercussions). In addition, to explore if there is any common behaviors among different cities regarding crimes. 
-
 ## Research questions to answer
 What cities occurs most/least crimes?
 What type of crimes occurs the most?
@@ -112,7 +108,7 @@ What are the demographics breakdown of the arrests?
 How many cases are closed/open in the given year?
 
 
-## Dataset to be used
+## Datasets used
 Chicago Crime data: https://data.cityofchicago.org/Public-Safety/Crimes-2019/w98m-zvie
 New York Crime data: https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i
 San Francisco: 
@@ -123,7 +119,7 @@ https://www.kaggle.com/AnalyzeBoston/crimes-in-boston
 ## Rough breakdown of the tasks
 Clean up the each dataset, and merge all the meaning data into one dataset
 Take each question and use jupyter notebook and pandas to analyze
-Use matplotlib to create data visualizations of the trend
+Use matplotlib & Plotly to create data visualizations of the trend
 Use google map api to generate the heat map for certain findings
 Create the report and presentation
 
